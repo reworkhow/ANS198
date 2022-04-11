@@ -1,5 +1,5 @@
 ---
-title: "ABG200A Statistics and Data Science"
+title: "Basic Statistics"
 author: "Hao Cheng"
 date: "4/11/2022"
 output: html_document
