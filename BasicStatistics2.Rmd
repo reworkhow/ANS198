@@ -1,10 +1,10 @@
 ---
 title: "Basic Statistics"
 author: "Hao Cheng"
-date: "04/11/2022"
+date: "04/13/2022"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -12,34 +12,20 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r loadPackagesLab, message = FALSE, warning=FALSE}
-library(prob)
-library(arrangements)
 library(knitr)
 ```
-
-After you download this file make certain you save it with the naming convention of:
-XXX.Rmd Also, if you want to know where R studio is saving files use the following command.  Click on the right greeen arrow to run this chunk of code.
 
 ```{r}
 getwd()
 ```
 
+A statistical distribution is a function that associates a probability to results of random experiments. For example, the random experiment can be the flip of a coin. Let's "measure" the result by assigning 1 to a tail and 0 to a head. The result is a discrete random variable Y that can take values 0 or 1. The statistical distribution, in this case a Probability Mass Function (pmf), is a function that associates a probability to each value of Y. For the example of the coin, we usually pick a function defined as follows: P(Y = 1) = P(Y = 0) = 0.5. This read as "the probability of Y taking a value of 1 is equal to the probability of Y taking a value of 0 and is equal to 0.5." Keep in mind that the actual pmf can and probably does differ for different individual coins. For an extreme example, remember that for a coin with two heads P(Y = 1) = 0 and P(Y = 0) = 1.0. The probability for the real coin experiment also depends on who flips the coin. It is possible to learn to get any side of the coin one wants.
 
 ## 1. Binomial Distribution
+The binomial distribution with parameters n and p is the probability distribution of the number of successes in a sequence of n independent experiments, each asking a yes–no question, and each with its own outcome: success (with probability p) or failure (with probability q = 1 − p).
 
+Example:
 You want to have 10 tomato seedlings to transplant. You place 50 seeds in germinations trays. It is known that the probability that the seeds will germinate and become seedlings is 0.20. What is the probability that you will have enough seedlings? Keep in mind that if 10 or more than 10 seeds germinate, you will have enough seedlings. We assume that the probability of germination is constant, and that seeds behave independently.
-
-
-```{r BinomLab}
-help(pbinom)
-
-# Use pbinom() because it gives the cumulative probability
-# Keep in mind that the lower tail includes the q specified
-# Complete the code below
-pbinom(q = 9, size = 50, prob = 0.2, lower.tail = FALSE) # P(X > q)
-```
-
-> Your answer here:0.5562596
 
 
 Plot the binomial distribution for p = 0.20 and n = 50.
@@ -49,35 +35,34 @@ plot(dbinom(x = 0:50, size = 50, prob = 0.2) ~ c(0:50), type = "h")
 ```
 
 
+```{r BinomLab}
+help(pbinom)
+
+# Use pbinom() because it gives the cumulative probability
+# Keep in mind that the lower tail includes the q specified
+pbinom(q = 9, size = 50, prob = 0.2, lower.tail = FALSE) # P(X > q) 
+```
+
+
 ## 2. Normal distribution, T-distribution, Confidence Intervals, and One-sample Hypothesis testing
 
-### Normal Distribution Part 1.
-
-Normal Distribution
-
-A statistical distribution is a function that associates a probability to results of random experiments. For example, the random experiment can be the flip of a coin. Let's "measure" the result by assigning 1 to a tail and 0 to a head. The result is a discrete random variable Y that can take values 0 or 1. The statistical distribution, in this case a Probability Mass Function (pmf), is a function that associates a probability to each value of Y. For the example of the coin, we usually pick a function defined as follows: P(Y = 1) = P(Y = 0) = 0.5. This read as "the probability of Y taking a value of 1 is equal to the probability of Y taking a value of 0 and is equal to 0.5." Keep in mind that the actual pmf can and probably does differ for different individual coins. For an extreme example, remember that for a coin with two heads P(Y = 1) = 0 and P(Y = 0) = 1.0. The probability for the real coin experiment also depends on who flips the coin. It is possible to learn to get any side of the coin one wants.
+### Normal Distribution
 
 For continuous random variables we have statistical distributions that are called "Probability Density Functions" for which the probability of any specific number is 0, but the probability of getting a number in any interval, no matter how small, can be positive. The Normal distribution is one of those pdf's that is most used in statistics for many reasons. In this section we will explore and operate with the Normal distribution.
 
-In the R code section below, we will read the help for "Normal" and list the functions that are explained there. Set the seed of random numbers to 39 so everyone gets the same random numbers. Create a vector called “Y5” containing 5 random numbers from the standard normal distribution using the “rnorm()” function. In the “rnorm()” function, give values to arguments called q, p, n, mean and sd by using their names as shown in the **Usage** part of the help.  For example, rnorm(n = 5, mean = 0, sd = 1). Calculate the sample variance of Y5. Now, create a new vector called “Y50” containing 50 random numbers from the standard normal distribution. Calculate the sample variance of Y50. Compare the variances. Is the relationship of the sample variances what you should have expected? What is the true variance of the populations from which you obtained the samples? Why do the calculated variances differ?
-
 ```{r}
-# In order to set the working directory "by hand" you need to know the path used by the operating system for your drive.
-#It is probably something like "E:/". Select a file within your flash drive when prompted.
-# copy the rest of this line to the console and run it: setwd(dirname(file.choose()))
-
 help("Normal")
 #Note, dnorm gives the probability density, pnorm gives the probability distribution function, qnorm gives the quantile function, and rnorm generates random values from the distribution.
 
-set.seed(39)
+set.seed(1)
 
 # obtain 5 random numbers from the standard normal distribution and put into Y5
-Y5 <- rnorm(n = 5,
+Y5 = rnorm(n = 5,
             mean = 0,
             sd = 1)
 
 # obtain 50 random numbers
-Y50 <- rnorm(n=50,
+Y50 = rnorm(n=50,
              mean = 0,
              sd = 1) # obtain 50 random numbers
 
@@ -90,17 +75,16 @@ var50 = var(Y50)
 ```
 
 Is the relationship of the sample means and variances what you should have expected? What is the true mean and variance of the populations from which you obtained the samples? Why do the calculated means and variances differ?
-Answers here:
-Yes, because as the sample size increases the closer the sample mean and variance is to the true mean. mean = 0, var = 1 Because the more samples you randomly take from a normal distribution the closer the mean and variance will be to the true mean and variance. So with 50 random samples, the mean and variance will be closer to the true mean and variance.
+
+Answer: Yes, because as the sample size increases the closer the sample mean and variance is to the true mean. mean = 0, var = 1 Because the more samples you randomly take from a normal distribution the closer the mean and variance will be to the true mean and variance. So with 50 random samples, the mean and variance will be closer to the true mean and variance.
 
 
-### Normal Distribution Part 2
+### Normal Distribution
 
 Plot the pdf for a standard normal distribution. Modify the code and produce a graph of the pdf for a normal distribution with mean = 2 and sd = 0.7.
 
 ```{r}
 # This plots the standard normal distribution.
-
 xna = seq(-5,5,0.1)
 pdf2a = dnorm(x = xna, mean = 0, sd = 1)
 plot(x = xna, y = pdf2a, type = "l", xlim = c(-5, 5), ylim = c(0, .5))
@@ -112,7 +96,7 @@ pdf2b = dnorm(x = xnb , mean = 2, sd = 0.7)
 plot(x = xnb , y = pdf2b  , type = "l", xlim = c( 2-4*0.7 , 2+4*0.7 ), ylim = c(0 , 0.6 ))
 ```
 
-### Student's t distribution Part 3
+### Student's t distribution
 
 When your sample size is small, and the true population standard deviation is unknown for a continuous probability distribution that you assume is normal, we use the t distribution instead.
 
@@ -142,355 +126,36 @@ abline(v = area.68t, lty = 2)  # this line and the next bound 68% of the t distr
 abline(v = -area.68t, lty = 2)
 legend("topleft", legend=c("Normal", "t, df = 3"),
        col=c("red", "black"), lty=1:2, cex=0.8)
-
-# Describe what you see in both figures. You might need to zoom in to see the details
-
-
-
 ```
 
-Confidence interval from the t distribution, in relation to alpha level: Use R to determine the sample size (n), mean, standard deviation, standard error, and 95% (alpha = 0.05) confidence interval (CI) for wean weight for the heifer data. Then calculate the confidence intervals at the
-alpha levels of 0.10 (90% CI) and .01 (99% CI).
-
-```{r myheifer.info, echo = TRUE, include = TRUE}
-
-# import the heifer data into a data frame called myheifer
-myheifer <- read.table('Lab03HeiferData.csv', header = TRUE, sep = ',')
-
-str(myheifer) # see components of heifer data
-
-myheifer.ww <- myheifer$Wean_weight  # Create Wean weight vector
-
-myheifer.n <- length(myheifer.ww)  # get sample size
-
-myheifer.mean <- mean(myheifer.ww) # get mean
-
-myheifer.sd <- sd(myheifer.ww)  # complete the code to get standard deviation
-
-myheifer.se <- myheifer.sd/sqrt(myheifer.n) # get standard error
-
-#add code below to get information on the qt() function, which is for the t distribution:
-#*AND ADD CODE HERE*
-?qt
-
-#Confidence interval
-(dfheifer <- myheifer.n - 1) # get degrees of freedom (n-1)
-
-alpha95 <- 0.05 # set the alpha level to 0.05 (95% CI)
-
-(t.crit95 <- qt(p = (1 - alpha95/2) , df = dfheifer))  # critical t value at 95% quantile under this degree of freedom
-
-(LB95 <- myheifer.mean - myheifer.se * t.crit95) # lower bound of the 95% confidence interval
-
-(UB95 <- myheifer.mean + myheifer.se * t.crit95) # upper bound of the 95% confidence interval
-
-
-library(plotrix) ## needed for plotCI() function
-
-
-# The text() function adds text to the plot you just printed.  In Rmarkdown, you have to run all relevant lines at once or else you will get an error. Highlight and run plotCI() and text() together to avoid this error.
-
-plotCI(x = myheifer.mean,
-       uiw = myheifer.se * t.crit95,
-       pch = 19,
-       xlim = c(0.9, 1.1),
-       ylim = c(508, 540),
-       ylab = "Wean Weight",
-       xlab = "",
-       xaxt = 'n',
-       main = "95% CI") ## plots the mean and 95% CI interval
-
-text(x = 1.05,
-     y = UB95,
-     labels = "Upper 95% CL")
-### add labels to "mean" and "Lower 95% CL"###
-text(x = 1.05,
-     y = LB95,
-     labels = "Lower 95% CL")
-text(x = 1.05,
-     y = myheifer.mean,
-     labels = "Mean")
-
-
-
-### Calculate the CI  for myheifer.mean for alpha level 0.10 (90% CI) and plot
-
-# First find the 90% CI
-
-alpha90 <- 0.10  # set the alpha level to 0.10 (90% CI)
-
-(t.crit90 <- qt(p = (1 - alpha90/2 ), df = dfheifer )) # Fill in missing code to get critical t value at 90% quantile under this degree of freedom
-
-(LB90 <- myheifer.mean -  myheifer.se * t.crit90 ) # fill in missing code to get lower bound of the 90% confidence interval
-
-(UB90 <- myheifer.mean + myheifer.se * t.crit90)
-
-## plot both CIs in one plot - just run, all code is complete
-x <- c(myheifer.mean, myheifer.mean)
-
-uiws1 <- c(myheifer.se * t.crit90, myheifer.se * t.crit95)   #confidence interval widths
-
-#if you run plotCI(...) and text(...) separately you will get an error.  Highlight plotCI(...) and text(...) together to avoid error.
-
-plotCI(x = x,
-       uiw = uiws1,
-       pch = 19,
-       xlim = c(0, 3),
-       ylim = c(505, 535),
-       ylab = "Wean Weight",
-       xlab = "",
-       xaxt = "n",
-       main = "90%, 95% CIs")
-
-text(1, 506, "90% CI")
-
-text(2, 506, "95% CI")
-
-```
-
-**Explain why the CI widths are different - what do the error bars represent?
-
-The CI widths are different because the 90% CI is the range of weights that covers 90% of the distribution (thus shorter) and the 95% CI covers 95% of the area of the distribution hence larger. The CI widths are the mean +- criticalt*sample sd/sqrt(n). Thus if you decrease the critical t value then the CI width decreases. The error bars represent the upper and lower bounds of each confidence interval.
-
-
-
-### Student's t distribution Part 4. [20 points]
-Confidence interval in relation to sample size: Use R to determine the mean, standard deviation, standard error, and 95% confidence interval (CI) for wean weight for varying sample sizes (n = 50, 150) in the heifer data.
-
-```{r}
-
-alpha <- 0.05   # set alpha at a 95% CI
-
-#Sample randomly from entire myheifer data set of n = 300 to get a subset of 150 for Wean_weight:
-
-set.seed(123)  # need to set this so everyone gets same answer
-myheifer150 <- myheifer$Wean_weight[sample(1:300,150)] #from the 300 weights in myheifer$Wean_weight select randomly 150
-
-# Calculate the 95% confidence interval for n = 150:
-
-myheifer150.n <- length(myheifer150)  # get sample size
-
-myheifer150.mean <- mean(myheifer150) # get mean
-
-myheifer150.sd <- sd(myheifer150) # get standard deviation
-
-myheifer150.se <- myheifer150.sd/sqrt(myheifer150.n) # get standard error
-
-df150 <- myheifer150.n - 1 # degrees of freedom
-
-t.crit150 <- qt(p=(1 - alpha/2), df = df150) # t critical value at 95% quantile under this degree of freedom
-
-LB150 <- myheifer150.mean - myheifer150.se * t.crit150 # lower bound of the confidence interval
-
-#Complete code for the upper bound of the confidence interval:
-
-#*AND ADD CODE HERE*
-UB150 <- myheifer150.mean + myheifer150.se * t.crit150
-
-#Sample randomly from entire myheifer data set of n = 300 to get a subset of 50 for Wean_weight:
-
-set.seed(123) #use set.seed so everyone gets the same answer
-
-myheifer50 <- myheifer$Wean_weight[sample(1:300,50)] #randomly select 50 out of 300 animals
-
-# Calculate the 95% confidence interval for 50 observations:
-
-myheifer50.n <- length(myheifer50) #get sample size
-
-myheifer50.mean <- mean(myheifer50) # get mean
-
-myheifer50.sd <- sd(myheifer50) # get standard deviation
-
-myheifer50.se <- myheifer50.sd/sqrt(myheifer50.n) # get standard error
-
-df50 <- myheifer50.n - 1 # degrees of freedom
-
-t.crit50 <- qt(p = (1 - alpha/2) , df = df50)   #critical value at 95% quantile under this degree of freedom
-
-LB50 <- myheifer50.mean - myheifer50.se * t.crit50 #lower bound of the confidence interval
-
-UB50 <- myheifer50.mean + myheifer50.se * t.crit50 #upper bound of the confidence interval
-
-## plot the means and 95% CIs for n = 50, 150
-
-x <- c(myheifer50.mean,
-       myheifer150.mean)
-
-uiws2 <- c(myheifer50.se * t.crit50,
-           myheifer150.se * t.crit150)
-
-plotCI(x = x,
-       uiw = uiws2,
-       pch = 19,
-       xlim = c(0.5 , 2.5),
-       ylim = c(475, 550),
-       ylab = "Wean Weight",
-       xlab = "",
-       xaxt = "n")
-
-text(1, 476, "n = 50")
-
-text(2, 476, "n = 150")
-
-```
-
-
-* Why are the intervals different widths now?  Explain in terms of how changing the sample size changes se and critical t.
-As you increase the sample size you decrease the critical t therefore narrowing the CI. For CI = mean +_criticalt*samplesd/sqrt(n). As you increase sample size critical t decreases, sample sd decreases and n increases. All these changes decrease the CI width.
-
-
-### Student's t distribution Part 5
-Express in words the meaning of the confidence intervals for wean weight at an alpha = 0.05.
-
- A confidence interval is a range of values that has a known probability of containing the true value of an unknown parameter. (from Top Hat book). The 95% confidence interval encloses an area in which we are 95% certain that the true population mean lies, given the sample we took. Therefore, the correct interpretation is something like: we are 95% certain that the true mean wean weight for heifers is between 490 and 530 pounds for the given sample we took.
-
-
-
-### Student's t distribution Part 6
+### Student's t distribution
 
 Using the statistics calculated in the above section, perform tests of hypotheses to determine if the population from which the samples were taken could have the following means:
 
 a) Average Wean_weight of heifers born in 2005 = 521.9 (alpha 0.05, 0.10)
 b) Average of Wean_weight for all heifers equal to 521.9 (N=50, 150, alpha= 0.05)
-In 4a-4b, use both the t statistic and confidence interval to perform your tests of hypothesis. Discuss your results and state (i) the null and alternate hypotheses, (ii) the decision rule (α) and test statistic, (iii) the final statistical decision, and conclusion.
-
 ```{r}
+myheifer = read.table('Lab03HeiferData.csv', header = TRUE, sep = ',')
 # a)  One-sample t test on heifer wean weight
 
-myheifer.set <- myheifer$Wean_weight[myheifer$Year == "2005"] # get a vector of the wean weight for the heifers born in 2005
-
-myheifer.set.n <- length(myheifer.set)  # get sample size
-
-myheifer.set.mean <- mean(myheifer.set) # get mean
-
-myheifer.set.sd <- sd(myheifer.set) # get standard deviation
-
-myheifer.set.se <- myheifer.set.sd/sqrt(myheifer.set.n) #se calculation
-
-df.set <- myheifer.set.n - 1 #df for this set
-
-(tstar_2005 <- abs((myheifer.set.mean - 521.9) /  myheifer.set.se )) # complete code to get your sample t value. Note the abs() function
-
-alpha95 <- 0.05
-
-(t.crit95_2005 <- qt( p = (1 - alpha95/2) , df = df.set))  # critical value at 95% quantile under this degree of freedom #critical value at 95% quantile under this degree of freedom
-
-tstar_2005 > t.crit95_2005 # logical query; if your sample test statistic is greater than the critical t value at your chosen alpha level, then you reject the null hypothesis that the population mean of heifer wean weight is equal to 521.9
-
-# If result is TRUE, then we reject the null hypothesis; i.e. the means are different at the alpha level of 0.05. There is still a <5% probability we would sample a mean of 542.38 (the mean of heifer wean weight in 2005) when the true population  mean is 521.9.
-# If result is FALSE, then we cannot reject the null hypothesis; i.e. the means of the wean weight in 2005 and the total data set are the same.
-
-LB2005_95 <- myheifer.set.mean - myheifer.set.se * t.crit95_2005 #lower bound of the confidence interval
-
-UB2005_95 <- myheifer.set.mean + myheifer.set.se * t.crit95_2005 #upper bound of the confidence interval
-
-LB2005_95; 521.9; UB2005_95 #a ";" betwen objects is just a line return
-
-#plot the t distribution and the test and critical t values
-dtx = seq(-5, 5, .1)
-dty = dt(x = dtx, df = df.set)
-
-plot(x = dtx, y = dty, xlim = c(-5,5), ylim = c(0, 0.5), type = "l")
-abline(v = tstar_2005, col = "blue")
-abline(v = t.crit95_2005, col = "red", lty = 2)
-legend("topleft", legend=c("tstar", "t.crit95"),
-       col=c("blue", "red"), lty=1:2, cex=0.8)
-
-
-## Using pt() function to calculate P value and compare with t.test below
-
-2 * (1 - pt(q= tstar_2005, df = df.set))
+myheifer.set = myheifer$Wean_weight[myheifer$Year == "2005"] # get a vector of the wean weight for the heifers born in 2005
 
 t.test(myheifer.set, mu = 521.9) # Ho: mean = 530.4
-#note the P value doesn't change no matter if you are at the 90 or 95% level
-
-# Type your code to do t tests with an alpha level of 0.10. Use the test statistic, the critical t, and the p value to explain the results.
-
-
-# (t.crit90_2005 <- qt( p = (1 - alpha90/2) , df = df.set))# critical value at 95% quantile under this degree of freedom #critical value at 95% quantile under this degree of freedom
-# tstar_2005 > t.crit90_2005# logical query; if your sample test statistic is greater than the critical t value at your chosen alpha level, then you reject the null hypothesis that the population mean of heifer wean weight is equal to 521.9
-#
-#
-# # If result is TRUE, then we reject the null hypothesis; i.e. the means are different at the alpha level of 0.05. There is still a <5% probability we would sample a mean of 542.38 (the mean of heifer wean weight in 2005) when the true population  mean is 521.9.
-# # If result is FALSE, then we cannot reject the null hypothesis; i.e. the means of the wean weight in 2005 and the total data set are the same.
-#
-# LB2005_90 <- myheifer.set.mean - myheifer.set.se * t.crit90_2005 #lower bound of the confidence interval
-#
-# UB2005_90 <- myheifer.set.mean + myheifer.set.se * t.crit90_2005 #upper bound of the confidence interval
-#
-# LB2005_90; 521.9; UB2005_90 #a ";" betwen objects is just a line return
-#
-#
-#
-# 2 * (1 - pt(q= tstar_2005, df = df.set))
 
 t.test(myheifer.set, mu = 521.9, conf.level = .90) # Ho: mean = 530.4
-
-
-
 ```
-
-Discuss your results and state (i) the null and alternate hypotheses, (ii) the decision rule (α) and test statistic, (iii) the final statistical decision, and conclusion (answer here):
-Alpha = 5%:
-(i)Ho: mu = muo Ha: mu not equal to muo where muo is 521.9
-
-(ii) if abs(tstar_2005) < t.crit95_2005 or critical t value at .95 with 149 df Fail to reject Ho if abs(tstar_2005) > t.crit95_2005 or critical t value at .95 with 149 df Reject Ho, accept Ha
-
-(iii) tstar_2005 is 1.49 and t.crit95_2005 is 1.97 so fail to reject Ho The lower and upper bound at 95% confidence interval is 519.13 and 541.7 so the mean of interest (521.9) falls with in this CI. We are 95% certain that the true mean wean weight (or the mean of interest of 521.9) for heifers is between 519.13 and 541.7 pounds for the given sample we took.
-
-
-
-Alpha = 10%:
-(i)Ho: mu = muo Ha: mu not equal to muo where muo is 521.9
-
-(ii)if abs(tstar_2005) < t.crit90_2005 or critical t value at .95 with 149 df Fail to reject Ho if abs(tstar_2005) > t.crit90_2005 or critical t value at .95 with 149 df Reject Ho, accept Ha
-
-(iii)tstar_2005 is 1.49 and t.crit90_2005 is 1.65 so fail to reject Ho The lower and upper bound at 95% confidence interval is 521.0 and 539.8 so the mean of interest (521.9) falls with in this CI…but just falls between them. We are 95% certain that the true mean wean weight (or the mean of interest of 521.9) for heifers is between 521.0 and 539.8 pounds for the given sample we took.
-
 
 
 ```{r}
 # b) One sample t test for all years, at the 95% CI, but varying sample sizes
 
-#Type your code in to do t tests on a sample size of 150 (In Part 2, we already created a data object for this sample size).
+myheifer150 = myheifer$Wean_weight[sample(1:300,150)] #from the 300 weights in myheifer$Wean_weight select randomly 150
+myheifer50 = myheifer$Wean_weight[sample(1:300,50)] #randomly select 50 out of 300 animals
 
 t.test(x = myheifer150, mu =  521.9)
-#calculate tstar150
-(tstar150 = abs(myheifer150.mean-521.9)/myheifer150.se)
-#t.crit150 calculated before and repeated below
-t.crit150
-
-#Type your code in to do t tests on a sample size of 50 (In Part 2, we already created a data object for this sample size).
 
 t.test(x = myheifer50, mu = 521.9)
-#calculate tstar50 below
-(tstar50 = abs(myheifer50.mean - 521.9)/myheifer50.se)
-#t.crit50 calculated before and repeated below
-t.crit50
 ```
-
-Discuss your results and state (i) the null and alternate hypotheses, (ii) the decision rule (α) and test statistic, (iii) the final statistical decision, and conclusion (answer here):
-Sample size of 150:
-(i)
-
-(ii)
-
-(iii)
-
-
-
-Sample size of 50:
-(i)
-
-(ii)
-
-(iii)
-
-
-
-Were the results what you expected for (a) and (b)?  Why or why not?
-
-
 
 
 ## 3. Comparing Two Means
@@ -499,193 +164,74 @@ Were the results what you expected for (a) and (b)?  Why or why not?
 
 Milk production (lb), milk composition and body weights of UCD lactating dairy cows was collected in August of 2000.  The cows are classified in two groups, Herd1 and Herd2, based on their genotype.
 
-Does the variance of milk production differ between the two herds (Herd1 vs. Herd2)? Perform a test of hypothesis at the 5% level ($\alpha = 0.05$) using the F-statistic. Look up the critical F value in Table A.7 and by using the qf(p = 0.05/2, df1 = , df2 = ) function.
+Does the variance of milk production differ between the two herds (Herd1 vs. Herd2)? Perform a test of hypothesis at the 5% level ($\alpha = 0.05$) using the F-statistic. Look up the critical F value by using the qf(p = 0.05/2, df1 = , df2 = ) function.
 
-Complete the calculations "by hand", using only basic R functions like var(). Then, use the var.test () R function to test for difference of variances.
+Use the var.test () R function to test for difference of variances.
 
 ```{r}
-MilkData <- read.csv("MilkEx5_data.csv")
+MilkData = read.csv("MilkEx5_data.csv")
 
-herd1 <- subset(MilkData, HERD == 1)
-milkherd1 <- herd1$TOTmilk
-herd2 <- subset(MilkData, HERD == 2)
-milkherd2 <- herd2$TOTmilk
+herd1 = subset(MilkData, HERD == 1)
+milkherd1 = herd1$TOTmilk
+herd2 = subset(MilkData, HERD == 2)
+milkherd2 = herd2$TOTmilk
 
 #use a boxplot to look at the data
 boxplot(milkherd1, milkherd2, names = c("Herd 1", "Herd 2"))
-
-## Test for the difference of variances "by hand"
-
-#calculate the variance for each treatment (Herd1 and Herd2)
-(var1 <- var(milkherd1))
-(var2 <- var(milkherd2))
-
-#calculate the F-value for our treatments (the larger variance will always be the numerator)
-(Fcalc <- var1 / var2)
-
-#number of samples in each treatment
-(n1 <- length(milkherd1))
-(n2 <- length(milkherd2))
-
-#degrees of freedom: number of samples - 1
-(dfh1 <- n1 - 1)
-(dfh2 <-n2-1  ) 	 #COMPLETE CODE
-
-alpha <-  0.05	#COMPLETE CODE
-
-#calculate the critical F-value (for our given alpha and degrees of freedom)
-(Ftable <- qf(p = alpha/2, df1 = dfh1, df2 = dfh2, lower.tail = FALSE))
-
-#Calculate the p-value of our treatment variances being equal (the probability is multiplied by 2 because the test is two-tailed)
-# complete the code to get the observed significance
-(p.of.Fcalc <- 2 * pf(q = Fcalc, df1 = dfh1, df2 = dfh2, lower.tail = FALSE))
-
 
 ##R function that does the complete test
 var.test(milkherd1, milkherd2)
 ```
 
-ANSWER 1.
-Write the interpretation and conclusion from the test here:
-
-
-
 
 #### Part 2: Test two means from two herds using t statistic  
 
-Calculate the 95% confidence interval for the difference between the milk production of dairy cows between the two herds. *Ignore the possibility of using the z-approximation due to the large sample size and use the t distribution.*
+Calculate the 95% confidence interval for the difference between the milk production of dairy cows between the two herds.
 
-a. Based on the results of the test of equality of variances, determine what case (Section 8.4 in online book) applies and estimate the variance of the difference between averages. Then compute the confidence interval.
-
-b. Perform a t-test of the null hypothesis that milk production does not differ between diary cows from Herd1 and Herd2. Perform all calculations "by hand" and compare to the results from using the t.test() function.
-
-
+Perform a t-test of the null hypothesis that milk production does not differ between diary cows from Herd1 and Herd2. 
 ```{r}
-#Calculate the pooled variance of Herd1 and Herd2
-(var12 <- (dfh1 * var1 + dfh2 * var2) / (dfh1 + dfh2))
-
-#Calculate the difference in variances between Herd1 and Herd2 (Assuming Independent)
-varDbar <- var12 / n1 + var12 / n2
-SE.diff = sqrt(varDbar)
-
-#calculate the t-value for our treatments (Herd1 and Herd2)
-(tcalc <- (mean(milkherd2) - mean(milkherd1)) / SE.diff)
-
-#calculate the critical t-value (for our given alpha and degrees of freedom)
-(ttable <- qt(p = alpha / 2, df = dfh1 + dfh2, lower.tail = FALSE)) # test is two-tailed
-
-#calculate the bounds of the critical intervals for the difference between our two treatments
-(CI.lo <- (mean(milkherd1) - mean(milkherd2)) - ttable * sqrt(varDbar))
-(CI.hi <- (mean(milkherd1) - mean(milkherd2)) + ttable * sqrt(varDbar)) 	#COMPLETE CODE
-
-
-(t.test.herd <- t.test(x = milkherd1, y =  milkherd2, alternative = "two.sided",
-                       paired = FALSE, var.equal = TRUE   )) 	#COMPLETE CODE
-
+t.test.herd = t.test(x = milkherd1, y =  milkherd2, alternative = "two.sided",
+                       paired = FALSE, var.equal = TRUE)
 ```
-
-ANSWER. State the extremes of the confidence interval and interpret the result of the test of hypothesis here:
-
-
-
-
-
 
 
 #### Part 3: Test two means that are paired using t statistic
 
 Milk production was measured in the morning (AM) and again in the evening (PM).  Perform a test to determine if there is a difference in milk production between the AM and PM. Specifically is milkPM > than milkAM. (Note that this is a paired t-test since the same sample of cows is being milk at two separate times).
 
-
 ```{r}
-milkAM <- MilkData$AMmilk
+milkAM = MilkData$AMmilk
 
-milkPM <- MilkData$PMmilk
+milkPM = MilkData$PMmilk
 
 # repeat the test using "hand" calculations as in part 2 above. Add lines of code below.
 
 #difference between the means of milk treatments (AM vs PM)
-d <- milkPM - milkAM  # this coding assumes mu1 = MilkPM and mu2 = MilkAM
+d = milkPM - milkAM  # this coding assumes mu1 = MilkPM and mu2 = MilkAM
 
 #use a boxplot to look at the differences:
 boxplot(d)
-
-nd = length(d) #number of observations in d
-
-#difference between the variances of milk treatments
-var.d <- var(d)
-
-#standard error of the difference between milk treatments
-se.d.bar <- sqrt(var.d /nd) 	#COMPLETE CODE
-
-dfs <- nd-1		#COMPLETE CODE
-
-#calculated t-value for the difference between milk treatments
-t.calc.d <- (mean(d) - 0) / se.d.bar
-
-#critical t-value (for a given alpha and degrees of freedom)
-# note (very important) for p below you only use alpha and not alpha/2.  Do you know why?
-
-ttable <- qt(p = alpha , df = dfs , lower.tail = FALSE)	#COMPLETE CODE
 
 #Below are two t.test.  The first one uses the differences and the second one use each vector and
 #  calculates the differences.  However, you must indicate the vectors are paired.  
 # The answers below from both t.tests must be the same if you code them correctly
 
-#complete missing code for t-test between milking times (AM vs PM)
-#for more information on arguments use help for the t.test() function
+
 #alternative = "greater" implies mu1 - mu2 > 0 or MilkPM - MilkAM > 0 or more formally mu > 0
-(t.test.time <- t.test(  d  , alternative = "greater")) #COMPLETE CODE
+t.test(  d  , alternative = "greater")
 
-#complete missing code for t-test between milking times (AM vs PM)
-#for more information on arguments use help for the t.test() function
-(t.test.time <- t.test( milkPM , milkAM , alternative = "greater", paired =  TRUE   )) 	#COMPLETE CODE
+t.test( milkPM , milkAM , alternative = "greater", paired =  TRUE)
 ```
-
-ANSWER. Interpret the result of the test of hypothesis here:
-
-
-
-#### Part 4: Paired or independent?
-
-For the following situations, please determine if you should be conducting an independent or a paired t-test. Make sure to justify your answers!  In some of these situations multiple pieces of information are being collected so please indicate what groups/variables are being compared.
-
-##### A. High protein diet
-
-A researcher is interested in whether a high protein diet for dairy cows will significantly increase the protein content in milk.  36 dairy cows are randomly chosen from the dairy.  Of this subset, 18 cows are chosen randomly to receive a high protein diet and 18 are randomly chosen to receive the standard diet.  After two weeks, the protein content of milk is measured in all 36 cows.  Then all cows switched diets such that the cows on the high protein diet were fed a standard diet and those cows on the standard diet were fed a high protein diet.  After two weeks, the protein content of milk is measured in all 36 cows. The change in protein content is calculated for all 36 cows.
-
-
-Answer here:
-
-
-
-##### B. Organic dairy feed
-
-A researcher wants to know whether using organic dairy feed will change the milk production of his cows.  To test this, organic feed and non-organic feed is given to six cows of the same breed in a random design (3 receive organic feed, 3 receive non-organic feed) and dairy production is measured for each treatment.  
-
-
-Answer here:
-
-
-
-
-##### C. Cowabunga
-
-You have developed a new breed of dairy cows that you have named "Cowabunga".  You are curious if the milk produced from these cows at your facility in Davis differ in lactose content from a colleague's farm in Fresno.  Both you and your colleague gather a sample of 10 random cows and send the milk to a lab to have their lactose content measured.  
-
-Answer here:
 
 
 
 ## 4. CRD Anova
-#### Part 1. Inspection and summary of data
+#### Inspection and summary of data
 
 In the first R chunk we read in the data, then we will plot boxplots of the log(protein), inspect the boxplots and determine if there appear to be any effects of treatments (i.e., diet) on the concentration of protein in the milk.
 
-Make a graph showing boxplots of the data for each treatment. Inspect the boxplots and determine if there appear to be any effects of treatment on protein in cow's milk.
-
 ```{r}
-milk.prot <- read.csv(file = "milkprotein2020.csv", header = TRUE)
+milk.prot = read.csv(file = "milkprotein2020.csv", header = TRUE)
 
 str(milk.prot)
 
@@ -696,71 +242,26 @@ boxplot(formula = protein ~ treatment, data = milk.prot,ylab = 'log(protein) %')
 ```
 
 
-Inspect the boxplot. What treatments (i.e., diet) appear to differ?
+#### ANOVA using R functions
 
-
-#### Part 2. ANOVA using R functions
-Use the R function `anova` to obtain the same tests of the null hypothesis that all means are equal. Report the results and compare to the previous results.
-
+Use the R function `anova` to obtain the same tests of the null hypothesis that all means are equal. 
 
 ```{r}
-
-linear.model1 <- lm(formula = protein ~ treatment,
+linear.model1 = lm(formula = protein ~ treatment,
                     data = milk.prot)
 
 anova(object = linear.model1)
-
 ```
-
-
-ANSWER THE FOLLOWING QUESTION:
-
-Do the results differ among functions? Compare to the results from Part 2 and Part 3.
-
-
-#### Part 3. Confidence intervals for treatment means
-
-Create 95% confidence intervals for the milk protein of each treatment.
-
-```{r}
-
-ci.data <- data.frame(treatment = levels(factor(milk.prot$treatment)))
-
-ci.data <- cbind(ci.data, predict(linear.model1,
-                              	newdata = ci.data,
-                              	interval = "confidence"))
-
-ci.data.bt <- exp(ci.data[,2:4]) # All columns are back transformed one at a time
-
-ci.data.bt$treatment <- ci.data$treatment # add treatment names back
-
-
-library(plotrix)
-plotCI(ci.data.bt$fit,
-   	uiw = ci.data.bt$upr - ci.data.bt$fit,
-   	liw = ci.data.bt$fit - ci.data.bt$lwr,
-   	ylab = "protein %",
-   	xlab = "",
-   	axes = FALSE)
-axis(side = 2)
-axis(side = 1, at = seq_along(ci.data.bt$treatment), labels = ci.data.bt$treatment)
-```
-
-
-
-ANSWER THE FOLLOWING QUESTIONS.
-
-Can you conclude that any of the treatments are effective to produce a protein content of 3.4% at least in one period? In other words, do any treatments result in an expected protein content that is significantly greater than 3.4%?
 
 
 ## 5. RCBD Anova
-#### Part 1. Read in, inspect and summarize data
 
+#### Part 1. Read in, inspect and summarize data
 Read in the data. Make boxplots for the milk protein by treatment and by block.
 ```{r}
 # If the data were available in a .csv file in the working directory,
 # it could be read in with the following line.
-milk.protB <- read.csv(file = "milkproteinlab6.csv", header = TRUE)
+milk.protB = read.csv(file = "milkproteinlab6.csv", header = TRUE)
 
 print(milk.protB) # The response variable is already log transformed.
 
@@ -769,10 +270,7 @@ boxplot(protein ~ treatment, milk.protB, ylab = "log(protein)")
 
 # make boxplots for the protein by block
 boxplot(protein ~ block, milk.protB, ylab = "log(protein)")
-
 ```
-
-Look for patterns in the boxplots and describe them.
 
 #### Part 2. RCBD ANOVA using R functions
 
@@ -780,55 +278,11 @@ Use the `anova` function to test the hypothesis that there are no treatment effe
 
 ```{r}
 
-RCBDmodel <- lm(formula = protein ~ treatment + block,
+RCBDmodel = lm(formula = protein ~ treatment + block,
                 data = milk.protB)
 
 anova(object = RCBDmodel)
-
-#Code below is given so you can best answer question below.
-
-(ss.trt); (ss.block); (ss.Res); (MS.trt); (MS.block); (MSE); (Fcalc.trt); (Fcalc.block); (pvalue.trt); (pvalue.block)
-
 ```
-
-
-**ANSWER THE FOLLOWING QUESTION:**
-
-Does the anova results of RCBDmodel give the same results as the ones you calculated by hand in section 2?  If not, why?
-
->your answer here:
-
-
-
-
-#### Part 3. Analyzing least significant difference (LSD) for treatments
-
-Report the Least Significant Difference (LSD). The LSD is the minimum difference necessary between two averages, either treatment averages or block averages, for the means to be considered "significantly" different. If the averages differ by less than the LSD, the means are not significanlty different. If the averages differ by more than the LSD, the means are significantly different.
-
-```{r}
-
-# Calculate the critical t value for the LSD.
-alpha <- 0.05
-(t.crit <- qt(p = 1 - alpha/2, df = dfe))
-
-# Calculate the standard error of the difference between treatment
-(se.diff.var <- sqrt(MSE)* sqrt(1/4 + 1/4))
-
-# Calculate the LSD for treatments.
-### COMPLETE CODE BELOW ###
-(LSD.trt <- t.crit * se.diff.var)
-
-#below to help you answer question
-(trt.avg)
-```
-
-**ANSWER THE FOLLOWING QUESTIONS:**
-
-Based on the LSD, which treatments differ from each other?
-
-> your answer here:
-
-
 
 ## 6. Simple Linear Regression
 The same instructions for completion and submission of work used in previous labs applies here. Refer to previous labs for the details.
@@ -848,171 +302,26 @@ Data for the exercise consists of body weight (Bwt) in kilograms and heart weigh
 
 1A) Make a scatterplot of body weight vs. heart weight.
 1B) Obtain estimates for the slope and intercept and interpret the results in terms of heart weight.
-
-
 ```{r}
-cats <- read.csv("Lab8Cats.csv")
+cats = read.csv("Lab8Cats.csv")
 str(cats)
 
 plot(Hwt_g ~ Bwt_Kg, data = cats) # you could also use: plot(Bwt_Kg, Hwt_g, data = cats)
 
-slr1 <- lm(formula = Hwt_g ~ Bwt_Kg, data = cats)
+slr1 = lm(formula = Hwt_g ~ Bwt_Kg, data = cats)
 
 summary(slr1) #the lm function estimates B0 and B1 and summary() provides the results
 ```
 
-**ANSWER THE FOLLOWING QUESTION:**
-
-1) What are the estimates for the slope and intercept? Interpret the results in terms of heart weight and its relationship to body weight.
-
-> Your answer here: The estimate of the slope is 4.0341 heart weight(g)/Body weight(kg).  The intercept is -0.3567 g heart weight but is not different than 0.  The slope implies that for every 1 kg increase in body weight the heart will increase 4.0341 g.
-
-
 #### Part 2. Test of null hypothesis and R-square.
 
-Test the null hypothesis that there is no relationship between body weight and heart weight (i.e., $\beta_{1}$ = 0) by performing an ANOVA for regression. Do the calculations "by hand" and then repeat using R functions.
+Test the null hypothesis that there is no relationship between body weight and heart weight (i.e., $\beta_{1}$ = 0) by performing an ANOVA for regression. 
 
-2A) Do you reject the Ho: $\beta_{1}$ = 0? Why? What does this mean in terms of the relationship between body and heart weight, in non-technical terms   2B) What proportion of the variance of heart weight is explained by body weight, the predictor?
-
-
-```{r}
-coef(slr1) # Use help(coef) to understand what this function does
-
-intcpt <- coef(slr1)[1]   # extract estimated intercept
-
-slope <-  coef(slr1)[2]   #COMPLETE CODE HERE. Extract the estimated slope or beta_1, just like we did with the intercept.
-
-Hwt.hat <- intcpt + slope * cats$Bwt_Kg   # creates a vector of estimated heart weights for each of the measured days using the regression model coefficients
-
-errors <- cats$Hwt_g - Hwt.hat   # creates a vector of the differences between the sample heart weight measurements and the estimated weights from the model, i.e., these are the residuals
-
-(TotalSS <- sum((cats$Hwt_g - mean(cats$Hwt_g)) ^ 2)) # total sums of squares
-
-(SSErrors <- sum(errors^ 2))    #COMPLETE CODE HERE. Type in the vector of the residuals to calculate residual sum of squares
-
-(SSReg <- TotalSS - SSErrors) # regression sums of squares
-
-##COMPLETE CODE BELOW ##
-(sum((Hwt.hat - mean(cats$Hwt_g))^2))
-
-n <- length(cats$Hwt_g ) #COMPLETE CODE HERE. Complete the code with the column that contains the observations
-
-(dfe <- n - length(coef(slr1)))  # df of the residuals
-
-(dfTotal <-  n-1   ) #COMPLETE CODE HERE to calculate the total df
-
-(dfReg <-    1  ) #COMPLETE CODE HERE to calculate the df of the regression
-
-(MSReg <- SSReg / dfReg)
-
-(MSE <- SSErrors /  dfe  ) #COMPLETE CODE HERE to calculate the MSE
-
-##  COMPLETE CODE BELOW ###
-(Fcalc <- MSReg / MSE)     # Calculated F statistic from the data
-
-(Fcritical <- qf(p = 0.95, df1 = dfReg   , df2 = dfe    )) #COMPLETE CODE HERE to complete the function arguments with the degrees of freedom for the numerator and the denominator to get the F critical value.
-
-#Note for simple regression: Ho: B1 = 0; Ha: B1 not equal to 0
-
-
-(pvalue.reg = pf(q = Fcalc, df1 = dfReg, df2 = dfe, lower.tail = F))
-
-
-(r2 <- SSReg / TotalSS) #coefficient of determination (r^2) calculates the percentage of variation in our dependent variable (y) explained by our independent variable (x)
-```
-
-
-Check that your previous by hand calculations are the same as the anova table.
 ```{r}
 anova(slr1)
-
-(SSReg);(SSErrors);(MSReg);(MSE);(Fcalc);(pvalue.reg)
-```
-**ANSWER THE FOLLOWING QUESTIONS:**
-
-2A) Do you reject the Ho: $\beta_{1}$ = 0? Why? What does this mean in terms of the relationship between body weight and heart weight, in non-technical terms
-
-> Your answer here: Yes reject Ho and accept Ha that B1 is different from zero.  Fcalc >>> Fcritical which indicates that the test statistic is much larger than the 0.05 Fcritical.  Also the pvalue is close to 0.  The pvalue is the probability that the observed statistic (Fcalc) could occur given Ho is true.  The pvalue is so small that we can accept the Ha and reject Ho.
-
-
-2B) What proportion of the variance of heart weight is explained by body weight, the predictor?
-
-> Your answer here: About 0.647 of the variance of heart weight is explained by body weight.
-
-
-#### Part 3. Make a 95% confidence interval for the estimation of the slope.
-
-
-First, do the calculations by hand, using the formulas from chapter 13 in the online textbook. Then use R functions.
-
-
-```{r}
-# Hint: check your answers with the anova table. It should be the same if your calculations are correct
-
-(tcritical.slr1 <- qt(p = 1- 0.05/2, df = dfe)) #COMPLETE CODE HERE.  Enter the probability for a 2-tailed test with alpha = 0.05
-
-SSX <- sum((cats$Bwt_Kg - mean(cats$Bwt_Kg)) ^ 2) # get sum of square of X
-
-MSE = SSErrors/dfe
-(se.beta1 <- sqrt((MSE/SSX))) # calculate the s.e. for beta 1 See TOPHAT eq 13.4
-
-(se.beta0 = sqrt(MSE)*sqrt((1/n + mean(cats$Bwt_Kg)^2/SSX))) #can calculate the s.e for beta 0 see tophat eq 13.7
-
-beta1.lo <- slope - tcritical.slr1 * se.beta1 # lower CI boundary.  
-
-
-beta1.hi <- slope + tcritical.slr1 * se.beta1  #COMPLETE CODE HERE for the the upper CI boundary
-
-
-c(beta1.lo, beta1.hi) # Display the lower and upper CI extremes
-
-confint(slr1)[2,]     # easier way to get the CI using the function from R
-#note if you used: confint(slr1) you would get the CI both for B0 and B1
-
-
 ```
 
-**ANSWER THE FOLLOWING QUESTION:**
-
-3) What is the 95% confidence interval for the relationship between heart weight and body weight?
-
-> Your answer here: The interval is from 3.539343 g/kg to  4.528782 g/kg
-
-
-#### Part 4. Make a 95% confidence interval for mean heart weight at a given body weight.
-
-
-Assume that you are interested in using the fitted regression model (the line) to estimate the mean heart weight of cats when they are 2.9 kg. Use the regression equation to make the estimate and then calculate the standard error of the estimate to make a confidence interval for it. Do detailed calculations first and then use R functions. You will calculate the estimated mean of Y for 2.9 kg. and its standard error and make a confidence interval for it.
-
-```{r}
-(Hwt.hat.2.9 <- intcpt + slope * 2.9) # In other words, Y = beta_0 + beta_1X, where Y, or the estimated value, is the heart weight of a cat that weighs 2.9 Kg.
-
-#Calculate the standard error of the estimated mean of Y:
-se.Hwt.2.9.m <- sqrt(MSE) * sqrt((1/n + (2.9 - mean(cats$Bwt_Kg)) ^ 2 / SSX)) # Formula from the online textbook. TopHat equation 13.8
-
-#COMPLETE CODE BELOW to calculate the upper and lower CI for the mean heart weight of cats when they are 2.9 kg. See equation 13.10 TopHat
-#below is estimated at 2.9, CI.lo and CI.up
-# tcritical.slr1  calculated above.  
-Hwt.hat.2.9
-(CI.Hwt.lo <- Hwt.hat.2.9 - tcritical.slr1*se.Hwt.2.9.m)
-(CI.Hwt.up <- Hwt.hat.2.9 + tcritical.slr1*se.Hwt.2.9.m)
-
-# The lines below uses predict() to estimate mean heart weight and its CI, as we did by hand above.
-new.data <- data.frame(Hwt_g = Hwt.hat.2.9, Bwt_Kg = 2.9) # Here we create a data frame that we will use to estimate heart weight in the next line.  Only the value for body weight is included since that is the X, independent variable.
-#Note the use of "confidence" to calcuate the  a confidence interval for the estimated heart weight.
-(ci.r <- predict(slr1, newdata = new.data, interval = "confidence"))
-
-```
-
-**ANSWER THE FOLLOWING QUESTIONS:**
-
-4A) Report the upper and lower extremes of the CI for the estimated mean of Y
-
-> Your answer here: 11.08745 g  to 11.59679 g
-
-
-
-## 9. Contingency Tables and Goodness of Fit
+## 7. Contingency Tables and Goodness of Fit
 #### Test of Independence
 
 We can use the $\chi^{2}$ distribution to test for a relationship between two categorical variables.  This type of test is called a *test of independence*. We specifically test the null hypothesis that there is statistical independence between the two categorical variables.  A sample of 169 mice was divided into three groups, 57 that received a standard dose of pathogenic bacteria followed by antiserum, 58 that received the same dose of bacteria, followed by an experimental treatment, and a control group of 54 that received the bacteria, but no treatment. After sufficient time had elapsed for an incubation period and for the disease to run its course, 45 dead mice and 124 survivors were counted. Of those that died, 13 had received bacteria and antiserum, 7 had received the experimental treatment, while 25 had received bacteria only. A question of interest is if the antiserum had in any way protected the mice so that there were proportionally more survivors in that group.
@@ -1028,150 +337,28 @@ The first step in performing a test of independence is to build a *contingency t
 1C) Calculate the marginal totals of each attribute type of each of the two variables.  
 
 ```{r}
-mice <- read.csv("mice.csv")
+mice = read.csv("mice.csv")
 ##use table() to calculate the frequencies of each treatment/result combination in the data.
 
-(micect <- table(mice))
+(micect = table(mice))
 
 #marginal totals:
 
-(treatSums <- rowSums(micect))
-(survSums <- colSums(micect))
+(treatSums = rowSums(micect))
+(survSums = colSums(micect))
 
 pander::pander(addmargins(micect)) #addmarigins is a function that sums rows and columns to the margins
 ```
 
-**ANSWER THE FOLLOWING QUESTIONS:**
 
-1D) State the null and alternative hypotheses.
+The null and alternative hypotheses: Ho: Treatment and survivability are independent variables. Ha: Treatment and survivability are not independent.
 
-> Your answer here: Ho: Treatment and survivability are independent variables. Ha: Treatment and survivability are not independent.
-
-
-#### Part 2. Expected Frequencies (20%)
-
-We have a table of our observed frequencies, but how do we calculate what we would have expected if the survival of mice is independent of treatment? Under the $H_{0}$, we would expect the joint probability of each cell in our contingency table to be based on the probability of two independent "events" (represented by the row and column categories) happening together. The probability of two independent events occurring simultaneously is simply the multiplication of the probabilities of each independent event. For example, if $H_{0}$ is true, the probability that a randomly sampled mice  would receive the control treatment *and* remain alive is equal to the probability of receiving the control treatment multiplied by the probability of remaining alive.  We estimate these probabilities using the marginal totals we calculated above, divided by the total number of mice we sampled.
-
-2A) Calculate the marginal probabilities of each variable attribute.
-2B) Using the marginal probabilities from 2A, create a table of expected joint probabilities for each combination of treatment type and survival outcome.  
-2C) Using the joint probabilities from 2B, calculate the expected frequencies of each combination of treatment type and survival outcome.  
+Use a built in R function to do a test of independence
 
 ```{r}
-#First, calculate the total number of mice used in this study:
-(total <- sum(treatSums)) # could also use nrow(mice)
-
-#2A:
-#Calculate the marginal probabilities of getting a particular treatment:
-(treatp <- treatSums/total)
-
-#Calculate the marginal probabilities of surviving or not:
-(survp <- survSums/total)
-
-#2B:
-#Fill a table with the calculated joint probabilities for each combination of treatment type and survival outcome:
-##Copy the dimensions of the cont. table to a new table.  We will do this by simply copying the original contingency table, then replacing the original observed frequencies with joint probabilities:
-
-(jprobs <- as.matrix(micect))
-
-#Fill the "antiserum" treatment row with joint probabilities by multiplying the marginal "antiserum" probability by all the marginal  probabilities from survp.  Since the probabilities from survp are in the same order as the jprobs columns, this will work fine:
-
-jprobs["antiserum", ] <- treatp["antiserum"] * survp
-
-#Do the same for the other treatment type:
-
-jprobs["experimental", ] <- treatp["experimental"] * survp
-
-jprobs["control", ] <- treatp["control"] * survp #COMPLETE CODE HERE for the control treatment
-
-sum(jprobs) #this should be equal to 1...otherwise you made a mistake
-
-#jgf for my interest can do same thing with treatp
-(jprobsT <- as.matrix(micect))
-jprobsT[, "alive" ] <- treatp * survp["alive"]
-jprobsT[, "dead" ] <- treatp * survp["dead"]
-
-
-#2C:
-#Calculate the expected frequencies based on the joint probabilities under the null hypothesis multiplied by the total number of mice sampled.  
-(miceExp <- jprobs * total)
-```
-
-**ANSWER THE FOLLOWING QUESTIONS:**
-
-2D) Explain in your own words how we use probability theory to calculate expected frequencies if survival outcome was independent of treatment type.
-
->Your answer here: We calculate the expected joint probabilities based on the observed marginal probabilities.  
-Then we compare the observed joint probabilities with the expected joint probabilities using a Chi-square.
-
-
-#### Part 3. Calculate $\chi^{2}$  (20%)
-
-The $\chi^{2}$ values are calculated from the square of the differences between the observed and expected frequencies, weighted by the expected frequencies.  
-
-3A) Use the following formula to calculate the $\chi^{2}$ test statistic for our contingency table:
-
-
-$$\chi^{2} = \Large\Sigma \space\small\frac{(observed - expected)^2} {expected}$$
-
-
-```{r}
-# Calculate chi square values for each cell:
-
-(chisqtable <- (micect - miceExp)^2 / miceExp)
-
-(chisq <- sum(chisqtable ))  #COMPLETE CODE HERE# This is the sum of squared differences between observed and expected frequencies (observations) weighted by expected frequencies (observations)
-```
-
-**ANSWER THE FOLLOWING QUESTIONS:**
-
-3B) Looking at the chisqtable table object that holds individual $\chi^{2}$ values, are there any treatment/survival outcome combinations that stand out as particularly different from what we would have expected under $H_{0}$?
-
->Your answer here: We would expect that the proportion in each treatment level to be similar within each survive column but there seems to be a higher Chi-square with control and experimental compared to antiserum. Antiserum observed has a low Chi-square so these values are similar to what we would expect.  Control and Experimental have higher Chi-squares but just from the Chi-square table we don't know which direction the observed values deviate from expected values.
-
-
-3C) What was the direction of difference between the observed and expected frequencies in the the cells you named in 3B? Based on this observation, what treatment type would you recommend to control the pathogenic bacteria?
-
->Your answer here: Control has the largest Chi-square and the number of dead is greatest.  The Experimental has the next highest Chi-square and this has the lowest number dead.  I would recommend the experimental treatment.
-
-
-#### Part 4. Results (20%)
-
-4A) Calculate the degrees of freedom
-4B) Calculate the critical $\chi^{2}$ value
-4C) Obtain the p value
-4D) Use a built in R function to do a test of independence
-
-```{r}
-# Calculate the degrees of freedom
-
-j <- nrow(micect)
-
-k <- ncol(micect)
-dfChi <- (j - 1) * (k - 1) #COMPLETE CODE HERE
-
-# Calculate the critical value
-
-(crit <- qchisq(p = 0.05,df = dfChi, lower.tail =  FALSE)) #COMPLETE CODE HERE with degrees of freedom
-
-# Is our test statistic equal to or greater than our critical value?
-chisq >= crit
-
-# You could also simply get the p value to use as your decision rule:
-
-(pvalue <- pchisq(q = chisq , df = dfChi, lower.tail = F)) #COMPLETE CODE HERE with our calculated chi-square value from Part 3
-
-# We just performed a test of independence by hand, but R actually has a single
-# function that will do it all at once for you:
-
 chisq.test(micect)
 ```
-
-**ANSWER THE FOLLOWING QUESTIONS:**
-
-4E) Write a conclusion. Include the test statistic, p value, whether or not you reject the null hypothesis, and a statement or two about what recommendations you would make based your results.  
-
->Your answer here: The pvalue of 0.00017 is the probability the the observed statistic value (chisq = 17.4) or larger could occur given Ho is true.  The critical chi value is 5.99. The Ho should be rejected and the Ha accepted with this evidence.  The treatment and survivability are not independent.  As mentioned before, I would recommend using the experimental treatment and if that wasn't available then I would recommend using the antiserum.  
-
+The pvalue of 0.00017 is the probability the the observed statistic value (chisq = 17.4) or larger could occur given Ho is true.  The critical chi value is 5.99. The Ho should be rejected and the Ha accepted with this evidence.  The treatment and survivability are not independent.  As mentioned before, I would recommend using the experimental treatment and if that wasn't available then I would recommend using the antiserum.  
 
 
 #### Goodness of Fit
@@ -1179,45 +366,13 @@ chisq.test(micect)
 Say you are harvesting persimmons from four different aged trees on your property. Of the total crop you are expecting to get 15%, 25%, 30% and 30% from trees A, B, C and D.  You harvested your crop and had 20, 60, 80, and 40 persimmons from trees A, B, C, and D.  You need to do a Chi-sq test using the chisq.test() function and answer the questions below. Assume alpha of 0.05.
 
 ```{r}
-# To help you get started some code is provided below and
-# you must fill in the rest base on what is presented in lab
-
-(cropharvest <- c( 20, 60 , 80, 40))
-
-####COMPLETE CODE BELOW ###
+cropharvest = c( 20, 60 , 80, 40)
 
 expectedProb = c(.15, .25, .30, .30)
-# dfchi = number of cells -1
 
-dfchi =   3              #COMPLETE CODE HERE
+CritChi = qchisq(p = 0.05, df = 3, lower.tail=FALSE)
 
-(CritChi = qchisq(p = 0.05  , df = 3  , lower.tail =  FALSE   ))
-
-chisq.test(x =  cropharvest  , p =  expectedProb)
-
-expect = c(30, 50, 60, 60)
-
-chi=100/30+ 100/50 + 400/60 +400/60
+chisq.test(x=cropharvest, p=expectedProb)
 ```
 
-**ANSWER THE FOLLOWING QUESTIONS:**
-5A. What is the critical Chi-square value using an alpha of 0.05.
-
-> your answer here: 7.814728
-
-
-5B. What is the calculated Chi-sq?
-
-> your answer here: 18.67
-
-5C. What is the pvalue?
-
-> your answer here: pvalue = 0.0003204
-
-5D. What is the Ho and Ha for this example?
-
-> your answer here: Ho: The proportion of persimmons harvest of total harvested follow the distribution from trees A, B, C and D as: 0.15, 0.25, 0.30, 0.30.  The Ha: The distribution differs from this in some way.
-
-5E.  What is your conclusion?
-
-> your answer here: The pvalue of 0.0003 if the probability that the observed Chi-sq value (or a greater value) could occur given the Ho is true. Because the pvalue is so low and below the alpha value of 0.05, then reject the Ho and accept the Ha.
+The pvalue of 0.0003 if the probability that the observed Chi-sq value (or a greater value) could occur given the Ho is true. Because the pvalue is so low and below the alpha value of 0.05, then reject the Ho and accept the Ha.
