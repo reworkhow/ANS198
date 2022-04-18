@@ -164,9 +164,7 @@ t.test(x = myheifer50, mu = 521.9)
 
 Milk production (lb), milk composition and body weights of UCD lactating dairy cows was collected in August of 2000.  The cows are classified in two groups, Herd1 and Herd2, based on their genotype.
 
-Does the variance of milk production differ between the two herds (Herd1 vs. Herd2)? Perform a test of hypothesis at the 5% level ($\alpha = 0.05$) using the F-statistic. Look up the critical F value by using the qf(p = 0.05/2, df1 = , df2 = ) function.
-
-Use the var.test () R function to test for difference of variances.
+Does the variance of milk production differ between the two herds (Herd1 vs. Herd2)? Use the var.test () R function to test for difference of variances.
 
 ```{r}
 MilkData = read.csv("MilkEx5_data.csv")
