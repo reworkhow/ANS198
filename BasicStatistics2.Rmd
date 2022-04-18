@@ -283,7 +283,6 @@ anova(object = RCBDmodel)
 ```
 
 ## 6. Simple Linear Regression
-The same instructions for completion and submission of work used in previous labs applies here. Refer to previous labs for the details.
 
 In simple linear regression (SLR) we study the relationship between a *predictor, explanatory or independent* variable (X, horizontal axis) and a *response or dependent* variable (Y, vertical axis). Different goals may be achieved with SLR. We may be interested in determining how much Y changes as X changes, or we may be interested in estimating the value of Y for values of X that were not observed. All goals require that we estimate parameters of a linear function for a straight line that best fits the data:
 
@@ -291,7 +290,7 @@ $$Y_{i} = \beta_{0} + \beta_{1}X_{i} + \epsilon_{i} \\ \epsilon_{i} \sim N(0, \ 
 
 Best fit is achieved by minimizing the sum of squares of residuals or vertical distances between observations and the line of fit. The estimated parameters are the *slope* ($\beta_{1}$) tangent of the angle between the line and the horizontal, and the *intercept* ($\beta_{0}$), the height of the line when X = 0. Numerically, the *slope* is the rate of change that occurs between the Y (dependent) variable and the X (predictor) variable, or in other words, how the values of Y change with each unit change in the X variable. The *intercept* is the value the Y variable takes when the X variable is equal to 0.  
 
-In this exercise we will examine the relationship between body weight and heart weight in cats. This data was originally published in a short paper by R.A. Fisher in 1947 (see paper in CANVAS). R.A. Fisher was a British Statistician that developed the foundations for modern statistical theory.
+In this exercise we will examine the relationship between body weight and heart weight in cats. This data was originally published in a short paper by R.A. Fisher in 1947. R.A. Fisher was a British Statistician that developed the foundations for modern statistical theory.
 
 Data for the exercise consists of body weight (Bwt) in kilograms and heart weight (Hwt) in grams of 144 cats. We will examine the relationship between heart weight and body weight in cats.
 
